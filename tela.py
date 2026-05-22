@@ -2,27 +2,37 @@ import tkinter as tk
 
 
 def login():
-    # Coleta os dados digitados nos campos usando .get()
+    # Coleta os dados digitados nos campos
     email = input_email.get()
     senha = input_senha.get()
 
-    # Validação básica de campos vazios
+    # 1. Validação de campos vazios
     if not email or not senha:
         label_status.config(
             text="Por favor, preencha todos os campos.", fg="#FF6B6B"
         )
         return
 
-    # Exibe a informação capturada diretamente na interface do app
-    texto_sucesso = f"Login enviado!\nEmail: {email}\nSenha: {senha}"
-    label_status.config(text=texto_sucesso, fg="#1DD1A1")
+    # 2. Definição das credenciais corretas do sistema
+    EMAIL_CORRETO = "professor@email.com"
+    SENHA_CORRETA = "1234"
+
+    # 3. Validação das credenciais com feedback visual apropriado
+    if email == EMAIL_CORRETO and senha == SENHA_CORRETA:
+        texto_sucesso = f"Acesso permitido!\nEmail: {email}\nSenha: {senha}"
+        label_status.config(text=texto_sucesso, fg="#1DD1A1")
+    elif email != EMAIL_CORRETO:
+        label_status.config(text="Erro: Usuário não cadastrado.", fg="#FF6B6B")
+    else:
+        # Exibe exatamente o que foi solicitado ao errar a senha
+        label_status.config(text="Erro: Senha incorreta!", fg="#FF6B6B")
 
 
-# Configuração principal da Janela (Design Clean)
+# Configuração principal da Janela
 app = tk.Tk()
 app.title("Sistema de Autenticação")
 app.geometry("450x550")
-app.configure(bg="#2F3640")  # Fundo escuro profissional
+app.configure(bg="#2F3640")
 
 # Título da Tela
 label_titulo = tk.Label(
@@ -54,7 +64,6 @@ input_email = tk.Entry(
     highlightbackground="#718093",
     highlightcolor="#00A8FF",
 )
-# Define largura do campo e margens internas (padding artificial)
 input_email.pack(fill="x", padx=60, ipady=6)
 
 # --- CONTAINER DE SENHA ---
@@ -91,7 +100,7 @@ botao = tk.Button(
 botao.config(command=login)
 botao.pack(fill="x", padx=60, pady=(40, 20), ipady=10)
 
-# --- ÁREA DE FEEDBACK / RESULTADO (Substitui o Terminal) ---
+# --- ÁREA DE FEEDBACK / RESULTADO ---
 label_status = tk.Label(
     app,
     text="",
